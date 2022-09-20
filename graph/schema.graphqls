@@ -15,38 +15,32 @@ type User {
 
 type Rectangle {
   id: ID!
-  X: Int!
-  Y: Int!
-  Width: Int!
-  Height: Int!
-  Fill: String!
-  Outline: String!
+  x: Int!
+  y: Int!
+  width: Int!
+  height: Int!
+  fill: String!
+  outline: String!
 }
-
-
 
 type Query {
   canvases: [Canvas!]!
 }
 
 input NewCanvas {
-  name: String!
+  Name: String!
 }
 input NewRectangle {
-  
   canvasId: ID!
-  X: Int!
-  Y: Int!
-  Width: Int!
-  Height: Int!
-  Fill: String!
-  Outline: String!
+  x: Int!
+  y: Int!
+  width: Int!
+  height: Int!
+  fill: String!
+  outline: String!
 }
 
 type Mutation {
   createCanvas(input: NewCanvas!): Canvas!
-}
-
-type Mutation {
   addShape(input: NewRectangle!): Canvas!
 }
