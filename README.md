@@ -48,6 +48,66 @@ $ go run ./server.go
 ```
 
 The API should be browseable from http://localhost:8080
+
+## Example endpoint interactions
+
+canvases query
+```
+query{
+  canvases{
+    id,
+    name
+    contents {
+      x,
+      y,
+      width,
+      height,
+      fill,
+      outline
+      
+    }
+  }
+}
+```
+Should return a list of all canvases
+
+createCanvas mutation:
+
+```
+mutation {
+  createCanvas(input: {name: "new canvas"}){
+    name
+  }
+}
+```
+
+addShape mutation:
+
+```
+mutation {
+  addShape(input: {
+    canvasId:"65c0c453-d145-43d1-9d7d-72f4a78f8c88"
+    x: 11,
+    y: 3,
+    width:1,
+    height:3,
+    fill:"#",
+    outline:"O",
+  }){
+    id,
+    name,
+    contents {
+      x,
+      y,
+      width,
+      height,
+      fill,
+      outline
+    }
+  }
+}
+```
+
 ## Running tests
 You can run all the tests in the project with the following command:
 ```
