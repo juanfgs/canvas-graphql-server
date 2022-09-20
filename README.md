@@ -47,6 +47,7 @@ To run the project use
 $ go run ./server.go
 ```
 
+The API should be browseable from http://localhost:8080
 ## Running tests
 You can run all the tests in the project with the following command:
 ```
