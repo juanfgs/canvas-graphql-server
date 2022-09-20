@@ -20,7 +20,6 @@ func (r *mutationResolver) CreateCanvas(ctx context.Context, input model.NewCanv
 func (r *queryResolver) Canvases(ctx context.Context) ([]*model.Canvas, error) {
 	var links []*model.Canvas
 	placeholderCanvas := model.Canvas{
-		Id: 4324312
 		Name: "Canvas ID",
 	}
 	links = append(links, &placeholderCanvas)
