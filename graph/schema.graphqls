@@ -36,8 +36,8 @@ input NewRectangle {
   y: Int!
   width: Int!
   height: Int!
-  fill: String!
-  outline: String!
+  fill: String
+  outline: String
 }
 
 type Mutation {

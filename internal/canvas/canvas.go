@@ -14,15 +14,15 @@ type Canvas struct {
 	Name     string               `json:"name"`
 }
 
-func (canvas Canvas) Create() string {
+func (canvas Canvas) Create() (string, error) {
 	var uuid string
 	sql := fmt.Sprintf("INSERT INTO Canvases(Name) VALUES ($1)  RETURNING id ")
 	err := database.Db.QueryRow(sql, canvas.Name).Scan(&uuid)
 
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
-	return uuid
+	return uuid, err
 }
 
 func (canvas Canvas) Save() error {
@@ -30,14 +30,14 @@ func (canvas Canvas) Save() error {
 
 	jsonContents, err := json.Marshal(canvas.Contents)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
-	err = database.Db.QueryRow(sql, canvas.Name, jsonContents, canvas.ID).Scan(&canvas.ID,&canvas.Name,&canvas.Contents)
+	err = database.Db.QueryRow(sql, canvas.Name, jsonContents, canvas.ID).Scan(&canvas.ID, &canvas.Name, &canvas.Contents)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
-	return nil 
+	return nil
 }
 
 func (canvas *Canvas) Get(uuid string) error {
@@ -45,7 +45,7 @@ func (canvas *Canvas) Get(uuid string) error {
 
 	err := database.Db.QueryRow(sql, uuid).Scan(&canvas.ID, &canvas.Name, &canvas.Contents)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	return nil
@@ -61,13 +61,12 @@ func GetAll() []*Canvas {
 	defer rows.Close()
 	for rows.Next() {
 		var canvas = &Canvas{}
-		rows.Scan(&canvas.ID,&canvas.Name,&canvas.Contents)
+		rows.Scan(&canvas.ID, &canvas.Name, &canvas.Contents)
 		if err != nil {
 			log.Fatal(err)
 		}
 		canvases = append(canvases, canvas)
 	}
 
-
-	return canvases 
+	return canvases
 }

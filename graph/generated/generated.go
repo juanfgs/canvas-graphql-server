@@ -321,8 +321,8 @@ input NewRectangle {
   y: Int!
   width: Int!
   height: Int!
-  fill: String!
-  outline: String!
+  fill: String
+  outline: String
 }
 
 type Mutation {
@@ -3130,7 +3130,7 @@ func (ec *executionContext) unmarshalInputNewRectangle(ctx context.Context, obj 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("fill"))
-			it.Fill, err = ec.unmarshalNString2string(ctx, v)
+			it.Fill, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -3138,7 +3138,7 @@ func (ec *executionContext) unmarshalInputNewRectangle(ctx context.Context, obj 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("outline"))
-			it.Outline, err = ec.unmarshalNString2string(ctx, v)
+			it.Outline, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}

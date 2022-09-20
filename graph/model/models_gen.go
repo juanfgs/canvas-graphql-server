@@ -13,13 +13,13 @@ type NewCanvas struct {
 }
 
 type NewRectangle struct {
-	CanvasID string `json:"canvasId"`
-	X        int    `json:"x"`
-	Y        int    `json:"y"`
-	Width    int    `json:"width"`
-	Height   int    `json:"height"`
-	Fill     string `json:"fill"`
-	Outline  string `json:"outline"`
+	CanvasID string  `json:"canvasId"`
+	X        int     `json:"x"`
+	Y        int     `json:"y"`
+	Width    int     `json:"width"`
+	Height   int     `json:"height"`
+	Fill     *string `json:"fill"`
+	Outline  *string `json:"outline"`
 }
 
 type Rectangle struct {

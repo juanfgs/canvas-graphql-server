@@ -5,6 +5,7 @@ package graph
 
 import (
 	"context"
+	"fmt"
 	"github.com/juanfgs/canvas/graph/generated"
 	"github.com/juanfgs/canvas/graph/model"
 	"github.com/juanfgs/canvas/internal/canvas"
@@ -15,8 +16,10 @@ import (
 func (r *mutationResolver) CreateCanvas(ctx context.Context, input model.NewCanvas) (*model.Canvas, error) {
 	var canvas canvas.Canvas
 	canvas.Name = input.Name
-	canvasID := canvas.Create()
-
+	canvasID, err := canvas.Create()
+	if err != nil {
+		return nil, fmt.Errorf(err.Error())
+	}
 	return &model.Canvas{ID: canvasID, Name: canvas.Name}, nil
 }
 
@@ -24,18 +27,43 @@ func (r *mutationResolver) CreateCanvas(ctx context.Context, input model.NewCanv
 func (r *mutationResolver) AddShape(ctx context.Context, input model.NewRectangle) (*model.Canvas, error) {
 	var canvas canvas.Canvas
 	var responseShapes []*model.Rectangle
-	canvas.Get(input.CanvasID)
 
+	var fill string = ""
+	var outline string = ""
+
+	getErr := canvas.Get(input.CanvasID)
+	if getErr != nil {
+		return nil, fmt.Errorf("Error fetching resource %s", input.CanvasID)
+	}
+
+	if input.Fill == nil && input.Outline == nil {
+		return nil, fmt.Errorf("Either Fill or Outline must be present")
+	}
+
+	if input.Fill != nil {
+		fill = *input.Fill
+	}
+	if input.Outline != nil {
+		outline = *input.Outline
+	}
+
+	if fill == "" && outline == "" {
+		return nil, fmt.Errorf("Either Fill or Outline should not be empty")
+	}
 	canvas.Contents = append(canvas.Contents, &shapes.Rectangle{
 		X:       input.X,
 		Y:       input.Y,
 		Width:   input.Width,
 		Height:  input.Height,
-		Fill:    input.Fill,
-		Outline: input.Outline,
+		Fill:    fill,
+		Outline: outline,
 	})
 
-	canvas.Save()
+	err := canvas.Save()
+
+	if err != nil {
+		return nil, fmt.Errorf(err.Error())
+	}
 
 	for _, rectangle := range canvas.Contents {
 		responseShapes = append(responseShapes, &model.Rectangle{
