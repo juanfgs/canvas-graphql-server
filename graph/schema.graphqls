@@ -1,0 +1,25 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Canvas {
+  id: ID!
+  name: String!
+}
+
+type User {
+  id: ID!
+  name: String!
+}
+
+type Query {
+  canvases: [Canvas!]!
+}
+
+input NewCanvas {
+  name: String!
+}
+
+type Mutation {
+  createCanvas(input: NewCanvas!): Canvas!
+}
