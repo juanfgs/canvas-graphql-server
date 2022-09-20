@@ -313,7 +313,7 @@ type Query {
 }
 
 input NewCanvas {
-  Name: String!
+  name: String!
 }
 input NewRectangle {
   canvasId: ID!
@@ -3051,17 +3051,17 @@ func (ec *executionContext) unmarshalInputNewCanvas(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"Name"}
+	fieldsInOrder := [...]string{"name"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "Name":
+		case "name":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Name"))
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
 			it.Name, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err

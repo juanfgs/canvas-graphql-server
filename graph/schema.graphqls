@@ -28,7 +28,7 @@ type Query {
 }
 
 input NewCanvas {
-  Name: String!
+  name: String!
 }
 input NewRectangle {
   canvasId: ID!

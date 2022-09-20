@@ -5,7 +5,6 @@ package graph
 
 import (
 	"context"
-
 	"github.com/juanfgs/canvas/graph/generated"
 	"github.com/juanfgs/canvas/graph/model"
 	"github.com/juanfgs/canvas/internal/canvas"
@@ -17,6 +16,7 @@ func (r *mutationResolver) CreateCanvas(ctx context.Context, input model.NewCanv
 	var canvas canvas.Canvas
 	canvas.Name = input.Name
 	canvasID := canvas.Create()
+
 	return &model.Canvas{ID: canvasID, Name: canvas.Name}, nil
 }
 
@@ -25,6 +25,7 @@ func (r *mutationResolver) AddShape(ctx context.Context, input model.NewRectangl
 	var canvas canvas.Canvas
 	var responseShapes []*model.Rectangle
 	canvas.Get(input.CanvasID)
+
 	canvas.Contents = append(canvas.Contents, &shapes.Rectangle{
 		X:       input.X,
 		Y:       input.Y,

@@ -24,15 +24,20 @@ func (r Rectangle) Value() (driver.Value, error) {
 func (r *Rectangle) Scan(value interface{}) error {
 	b, ok := value.([]byte)
 	if !ok {
-		return errors.New("type assertion failed")
+		return errors.New("Rectangle type assertion failed")
 	}
 	return json.Unmarshal(b, &r)
 }
 
 func (r *RectangleList) Scan(value interface{}) error {
+
 	b, ok := value.([]byte)
+	if !ok && value == nil {
+		r = &RectangleList{}
+		return nil
+	}
 	if !ok {
-		return errors.New("type assertion failed")
+		return errors.New("RectangleList type assertion failed")
 	}
 	return json.Unmarshal(b, &r)
 }

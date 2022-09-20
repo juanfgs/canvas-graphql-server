@@ -16,17 +16,12 @@ type Canvas struct {
 
 func (canvas Canvas) Create() string {
 	var uuid string
-	sql := fmt.Sprintf("INSERT INTO Canvases(Contents,Name) VALUES ($1,$2)  RETURNING id ")
+	sql := fmt.Sprintf("INSERT INTO Canvases(Name) VALUES ($1)  RETURNING id ")
+	err := database.Db.QueryRow(sql, canvas.Name).Scan(&uuid)
 
-	jsonContents, err := json.Marshal(canvas.Contents)
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = database.Db.QueryRow(sql, jsonContents, canvas.Name).Scan(&uuid)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	return uuid
 }
 

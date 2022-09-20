@@ -9,7 +9,7 @@ type Canvas struct {
 }
 
 type NewCanvas struct {
-	Name string `json:"Name"`
+	Name string `json:"name"`
 }
 
 type NewRectangle struct {
