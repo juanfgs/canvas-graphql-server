@@ -1,27 +1,38 @@
 package shapes
 
 import (
-	"encoding/json"
 	"database/sql/driver"
+	"encoding/json"
 	"errors"
 )
+
 type Rectangle struct {
-	X int64 `json:"x"`  
-	Y int64 `json:"y"`
-	Width int64 `json:"width"`
-	Height int64 `json:"height"`
-	Fill string `json:"fill"`
-	Outline string `json:"fill"`
+	X       int    `json:"x"`
+	Y       int    `json:"y"`
+	Width   int    `json:"width"`
+	Height  int    `json:"height"`
+	Fill    string `json:"fill"`
+	Outline string `json:"outline"`
 }
+
+type RectangleList []*Rectangle
 
 func (r Rectangle) Value() (driver.Value, error) {
 	return json.Marshal(r)
-} 
+}
 
 func (r *Rectangle) Scan(value interface{}) error {
 	b, ok := value.([]byte)
-	if !ok{
+	if !ok {
 		return errors.New("type assertion failed")
 	}
-	return json.Unmarshal(b,&r)
+	return json.Unmarshal(b, &r)
+}
+
+func (r *RectangleList) Scan(value interface{}) error {
+	b, ok := value.([]byte)
+	if !ok {
+		return errors.New("type assertion failed")
+	}
+	return json.Unmarshal(b, &r)
 }
