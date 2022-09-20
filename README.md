@@ -54,4 +54,4 @@ $ GO_ENV=test go test ./...
 ```
 
 Make sure to specify GO_ENV=test to avoid running the integration tests in the
-production databases.
+main database.
