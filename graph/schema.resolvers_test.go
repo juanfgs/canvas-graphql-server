@@ -25,7 +25,8 @@ func (suite *CanvasSuite) SetupSuite() {
 	dbPassword := os.Getenv("DB_TEST_PASSWORD")
 	dbHost := os.Getenv("DB_TEST_HOST")
 	dbName := os.Getenv("DB_TEST_NAME")
-	dsn := fmt.Sprintf("user=%s password=%s host=%s dbname=%s sslmode=disable", dbUsername, dbPassword, dbHost, dbName)
+	dbPort := os.Getenv("DB_TEST_PORT")
+	dsn := fmt.Sprintf("user=%s password=%s host=%s dbname=%s port=%s sslmode=disable", dbUsername, dbPassword, dbHost, dbName, dbPort)
 	postgresql := engine.NewPostgresEngine(dsn)
 	Cleaner.SetEngine(postgresql)
 	database.InitDB()
@@ -122,7 +123,6 @@ func (suite *CanvasSuite) TestQueryCanvases() {
 		}
 	}
 
-	
 	suite.c.RawPost(`mutation { createCanvas(input: {name: "new canvas"}){ id }}`)
 	suite.c.RawPost(`mutation { createCanvas(input: {name: "new canvas2"}){ id }}`)
 	suite.c.RawPost(`mutation { createCanvas(input: {name: "new canvas3"}){ id }}`)
@@ -141,11 +141,9 @@ func (suite *CanvasSuite) TestQueryCanvases() {
     }
   }
 }`, &queryCanvasesResponse)
-	
+
 	suite.Equal(3, len(queryCanvasesResponse.Canvases))
 }
-
-
 
 func TestRunSuite(t *testing.T) {
 

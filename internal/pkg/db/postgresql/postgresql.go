@@ -19,13 +19,15 @@ func InitDB() {
 	dbPassword := os.Getenv("DB_PASSWORD")
 	dbHost := os.Getenv("DB_HOST")
 	dbName := os.Getenv("DB_NAME")
+	dbPort := os.Getenv("DB_PORT")
 	if os.Getenv("GO_ENV") == "test" {
 		dbUsername = os.Getenv("DB_TEST_USERNAME")
 		dbPassword = os.Getenv("DB_TEST_PASSWORD")
 		dbHost = os.Getenv("DB_TEST_HOST")
 		dbName = os.Getenv("DB_TEST_NAME")
+		dbPort = os.Getenv("DB_TEST_PORT")
 	}
-	db, err := sql.Open("postgres", fmt.Sprintf("user=%s password=%s host=%s dbname=%s sslmode=disable", dbUsername, dbPassword, dbHost, dbName))
+	db, err := sql.Open("postgres", fmt.Sprintf("user=%s password=%s host=%s dbname=%s sslmode=disable port=%s", dbUsername, dbPassword, dbHost, dbName, dbPort))
 	if err != nil {
 		log.Panic(err)
 	}
@@ -49,7 +51,7 @@ func Migrate() {
 
 	driver, _ := postgres.WithInstance(Db, &postgres.Config{})
 	m, err := migrate.NewWithDatabaseInstance(
-		"file://" + path.Join(gopath,"/src/github.com/juanfgs/canvas/internal/pkg/db/migrations/postgresql"),
+		"file://"+path.Join(gopath, "/src/github.com/juanfgs/canvas/internal/pkg/db/migrations/postgresql"),
 		"postgresql",
 		driver,
 	)
@@ -57,6 +59,5 @@ func Migrate() {
 	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
 		log.Fatal(err)
 	}
-
 
 }
