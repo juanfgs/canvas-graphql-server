@@ -1,5 +1,5 @@
 CREATE TABLE public.canvases (
-    id uuid NOT NULL,
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
     name character varying(255) NOT NULL,
     contents jsonb NULL
 );

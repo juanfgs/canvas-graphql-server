@@ -1,1 +1,1 @@
-DROP TABLE public.canvas;
+DROP TABLE public.canvases;
