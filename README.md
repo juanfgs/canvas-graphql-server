@@ -23,7 +23,8 @@ to fetch all the dependencies
 ## Docker configuration
 
 The project has a docker-compose.yml for easy setup. Just run 
-``` docker-compose up -d 
+```
+docker-compose up -d 
 ```
 to bring up the postgresql servers.
 The servers are set up to run by default on non standard ports to not interfere 
